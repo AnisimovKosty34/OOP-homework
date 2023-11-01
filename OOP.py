@@ -3,7 +3,8 @@ def courses_average(person_list, course):
     for person in person_list:
         for cours_name, average in person.grades.items():
             if course == cours_name:
-                return round(sum(average) / len(average))
+                print(f"Средняя оценка {person.name} {person.surname} по курсу {cours_name} равна {round(sum(average) / len(average), 0)}\n")
+          
                 
 
 
@@ -17,7 +18,7 @@ def comparison_grades(pers1, pers2):
         return(f'Средняя оценка {pers1.name} {pers1.surname}  равна средней оценке {pers2.name} {pers2.surname}')
         
 class Student:
-    student_list = []
+    list = []
     def __init__(self, name, surname, faculty):
         self.name = name
         self.surname = surname
@@ -25,19 +26,13 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
-        Student.student_list.append(self)
+        Student.list.append(self)
         
     def __gt__(self, other):
-        if not isinstance(other, Student):
-            raise TypeError('Сравниваются объекты разных классов')
         return self.grades_average() > other.grades_average()
     def __lt__(self, other):
-        if not isinstance(other, Student):
-            raise TypeError('Сравниваются объекты разных классов')
         return self.grades_average() < other.grades_average()
     def __eq__(self, other):
-        if not isinstance(other, Student):
-            raise TypeError('Сравниваются объекты разных классов')
         return self.grades_average() == other.grades_average()
 
     def rate_hw_lecturer(self, lecturer, course, grade):
@@ -74,24 +69,18 @@ class Mentor:
         self.courses_attached = []
 
     def __gt__(self, other):
-        if not isinstance(other, Lecturer):
-            raise TypeError('Сравниваются объекты разных классов')
         return self.grades_average() > other.grades_average()
     def __lt__(self, other):
-        if not isinstance(other, Lecturer):
-            raise TypeError('Сравниваются объекты разных классов')
         return self.grades_average() < other.grades_average()
     def __eq__(self, other):
-        if not isinstance(other, Lecturer):
-            raise TypeError('Сравниваются объекты разных классов')
         return self.grades_average() == other.grades_average()
 
 class Lecturer(Mentor):
-    lecturer_list = []
+    list = []
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
-        Lecturer.lecturer_list.append(self)
+        Lecturer.list.append(self)
 
     def grades_average(self):
         '''метод подсчёта средней оценки по всем лекциям для лектора'''
