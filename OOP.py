@@ -1,14 +1,14 @@
 def courses_average(person_list, course):
+    '''функция подсчёта среднего арифметического значения по ключу '''
     for person in person_list:
         for cours_name, average in person.grades.items():
             if course == cours_name:
-                sum_average = sum(average) / len(average)
-                return (f"{person.name} {person.surname}\n"
-                       f"{cours_name}\n"
-                       f"Cредняя оценка: {round(sum_average, 0)}\n")
+                return round(sum(average) / len(average))
+                
 
 
 def comparison_grades(pers1, pers2):
+    '''функция сравнения среднего арифметического'''
     if pers1.grades_average() > pers2.grades_average():
         return(f'Средняя оценка {pers1.name} {pers1.surname} больше, чем средняя оценка {pers2.name} {pers2.surname}')
     elif pers1.grades_average() < pers2.grades_average():
@@ -41,6 +41,7 @@ class Student:
         return self.grades_average() == other.grades_average()
 
     def rate_hw_lecturer(self, lecturer, course, grade):
+        '''метод присвоения оценок лекторам'''
         if isinstance(lecturer, Lecturer) and course in self.courses_in_progress and course in lecturer.courses_attached:
             if course in lecturer.grades:
                 lecturer.grades[course] += [grade]
@@ -50,6 +51,7 @@ class Student:
             return 'Ошибка'
 
     def grades_average(self):
+        '''метод подсчёта средней оценки по всем курсам для студента'''
         gr_count = 0
         gr_sum = 0
         for i in self.grades:
@@ -92,6 +94,7 @@ class Lecturer(Mentor):
         Lecturer.lecturer_list.append(self)
 
     def grades_average(self):
+        '''метод подсчёта средней оценки по всем лекциям для лектора'''
         gr_count = 0
         gr_sum = 0
         for i in self.grades:
@@ -109,6 +112,7 @@ class Reviewer(Mentor):
         super().__init__(name, surname)
 
     def rate_hw_student(self, student, course, grade):
+        '''метод присвоения оценок студентам'''
         if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
             if course in student.grades:
                 student.grades[course] += [grade]
@@ -166,20 +170,11 @@ reviewer_1.rate_hw_student(student_2, 'Трансфигурация', 4)
 student_1.rate_hw_lecturer(lecturer_1, 'Защита от Тёмных искусств', 7)
 student_1.rate_hw_lecturer(lecturer_1, 'Защита от Тёмных искусств', 7)
 student_1.rate_hw_lecturer(lecturer_1, 'Зельеварение', 8)
+student_1.rate_hw_lecturer(lecturer_1, 'Зельеварение', 10)
+student_1.rate_hw_lecturer(lecturer_1, 'Зельеварение', 9)
 
 student_2.rate_hw_lecturer(lecturer_2, 'Защита от Тёмных искусств', 10)
 student_2.rate_hw_lecturer(lecturer_2, 'Защита от Тёмных искусств', 10)
 student_2.rate_hw_lecturer(lecturer_2, 'Зельеварение', 8)
-
-print(reviewer_1)
-print(reviewer_2)
-print(lecturer_1)
-print(lecturer_2)
-print(student_1)
-print(student_2)
-
-print(courses_average(Student.student_list, 'Защита от Тёмных искусств'))
-print(courses_average(Lecturer.lecturer_list, 'Защита от Тёмных искусств'))
-
-print(comparison_grades(lecturer_1, lecturer_2))
-print(comparison_grades(student_1, student_2))
+student_2.rate_hw_lecturer(lecturer_2, 'Зельеварение', 5)
+student_2.rate_hw_lecturer(lecturer_2, 'Зельеварение', 3)
